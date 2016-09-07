@@ -18,11 +18,26 @@ const config = {
 
 firebase.initializeApp(config);
 
+function checkUser(nextState, replace, callback) {
+  const unsubscribe = firebase.auth().onAuthStateChanged(
+    user => {
+      const isChat = nextState.location.pathname.indexOf('chat') > -1;
+      if (isChat && !user) {
+        replace(`/login`)
+      }
+      callback()
+    },
+    error => {
+      debugger
+    }
+  )
+
+}
 
 ReactDOM.render((
   <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <Route path="chat" component={Chat}/>
+    <Route path="/" component={App} onEnter={checkUser}>
+      <Route path="chat" component={Chat} onEnter={checkUser}/>
       <Route path="signup" component={Signup}/>
       <Route path="login" component={Login}/>
     </Route>
