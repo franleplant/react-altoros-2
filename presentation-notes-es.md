@@ -102,7 +102,6 @@ class Example extends React.Component {
 
 }
 
-// TODO verify
 Example.propTypes = {
   // Si falta react tira error (solo en Dev)
   name: React.PropTypes.string.isRequired,
