@@ -1,7 +1,7 @@
 import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, Route, Link, browserHistory, IndexRedirect } from 'react-router'
 import firebase from 'firebase';
 import App from './App';
 import Chat from './Chat'
@@ -37,6 +37,7 @@ function checkUser(nextState, replace, callback) {
 ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={App} onEnter={checkUser}>
+      <IndexRedirect to="chat" />
       <Route path="chat" component={Chat} onEnter={checkUser}/>
       <Route path="signup" component={Signup}/>
       <Route path="login" component={Login}/>
