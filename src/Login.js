@@ -48,7 +48,7 @@ export default class Login extends Component {
     let errorMessage = null;
     if (this.state.error) {
       errorMessage = (
-        <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
+        <Alert bsStyle="danger">
           <h4>Oh snap! You got an error!</h4>
           <p>{this.state.error}</p>
         </Alert>

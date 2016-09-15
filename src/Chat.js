@@ -1,25 +1,11 @@
 import React, { Component } from 'react';
 import {Col, Panel, Label, Glyphicon, Form, FormControl, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
 import firebase from 'firebase';
+import getUserColor from './color.js';
 
 let Messages
 let Userlist
 
-let userColorCount = 0;
-const USER_COLOR = [
-  "default",
-  "primary",
-  "success",
-  "info",
-  "warning",
-  "danger",
-]
-
-function getUserColor() {
-  const index = userColorCount % USER_COLOR.length;
-  userColorCount +=1;
-  return USER_COLOR[index]
-}
 
 export default class Chat extends Component {
   constructor(props) {
@@ -37,6 +23,9 @@ export default class Chat extends Component {
 
 
   componentDidMount() {
+    //
+    // Layout calculation
+    //
     const viewportHeight = document.documentElement.clientHeight
     const navHeight = document.querySelector('.navbar-inverse').clientHeight
     const tol = 100;
@@ -45,6 +34,9 @@ export default class Chat extends Component {
     this.setState({ chatHeight })
 
 
+    //
+    // Data init
+    //
     Messages = firebase.database().ref('messages')
     Userlist = firebase.database().ref('userlist')
 
@@ -64,7 +56,6 @@ export default class Chat extends Component {
     });
 
 
-
     // Get messages and listen to new ones
     Messages.on('value', snapshot => {
       const messageMap = snapshot.val() || [];
@@ -72,9 +63,8 @@ export default class Chat extends Component {
       this.setState({ messages })
     });
 
+    // Cleanup
     window.addEventListener('beforeunload', this.componentWillUnmount.bind(this));
-
-    //this.compose.focus();
   }
 
   componentWillUnmount() {
@@ -136,7 +126,7 @@ export default class Chat extends Component {
               >
                 {messages.map((msg, index) => (
                   <p key={index}>
-                    <Label bsStyle={'primary'}>{msg.user}</Label>
+                    <Label bsStyle={getUserColor(msg.user)}>{msg.user}</Label>
                     <span style={{marginLeft: '10px'}}>{msg.message}</span>
                   </p>
                 ))}
