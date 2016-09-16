@@ -67,12 +67,18 @@ export default class Chat extends Component {
     window.addEventListener('beforeunload', this.componentWillUnmount.bind(this));
   }
 
-  componentWillUnmount() {
-    // remove user entry of the userlist
-    firebase.database().ref(`userlist/${this.userlistId}`).remove()
+  async componentWillUnmount() {
 
     Messages.off()
     Userlist.off()
+
+    try {
+    // remove user entry of the userlist
+      await firebase.database().ref(`userlist/${this.userlistId}`).remove()
+    } catch(err) {
+      console.error(err)
+      debugger;
+    }
   }
 
   componentDidUpdate() {

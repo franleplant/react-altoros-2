@@ -4,9 +4,9 @@ import { LinkContainer } from 'react-router-bootstrap';
 import firebase from 'firebase'
 
 export default class App extends Component {
-  async onLogOut(event) {
-    await firebase.auth().signOut()
+  onLogOut(event) {
     window.location = "/login"
+    setTimeout(_ => firebase.auth().signOut())
   }
 
   render() {
